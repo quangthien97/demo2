@@ -1,17 +1,18 @@
-const UserModle = require('../models/User');
+const UserModle = require("../models/User");
 const jwt = require("jsonwebtoken");
 const key = {
   tokenKey: "djghhhhuuwiwuewieuwieuriwu"
-}
+};
 
-module.exports = async function (req, res, next) {
-  const token = req.header('auth-token');
+module.exports = async function(req, res, next) {
+  const token = req.header("token");
   if (!token) {
+    req.user = undefined;
     return res.json({
       code: 401,
       message: "k co quyen dang nhap",
       data: null
-    })
+    });
   } else {
     try {
       const verified = jwt.verify(token, key.tokenKey);
@@ -23,7 +24,7 @@ module.exports = async function (req, res, next) {
         code: 400,
         message: " token khong hop le",
         data: null
-      })
+      });
     }
   }
-}
+};

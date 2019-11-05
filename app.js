@@ -65,24 +65,19 @@ app.use(function(req, res, next) {
   return next();
 });
 
-// app.use('/users', usersRouter);
 app.use("/cateNews", cateNewsRouter);
 app.use("/news", newsRouter);
 app.use("/newsEdits", newsEditRouter);
 app.use("/login", loginRouter);
 app.use("/likes", likeRouter);
 app.use("/rates", rateRouter);
-// app.use('/views', viewRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
 
-// var publicDir = require('path').join(__dirname);
-// app.use(express.static(publicDir));
-
-// error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;

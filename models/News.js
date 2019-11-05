@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 require("mongoose-double")(mongoose);
 const Schema = mongoose.Schema;
+const moment = require("moment");
 const ObjectId = mongoose.Schema.Types.ObjectId;
 const { NEWS } = require("../constant");
 const schema = new Schema({
@@ -38,8 +39,8 @@ const schema = new Schema({
     default: false
   },
   dateCreate: {
-    type: Date,
-    default: new Date()
+    type: String,
+    default: moment().format('MMMM Do YYYY, h:mm:ss a'),
   },
   tag: [{ type: ObjectId, ref: "Tag" }]
 });

@@ -5,8 +5,9 @@ const key = {
 };
 
 const authEditor = async function(req, res, next) {
-  const token = req.header("auth-token");
+  const token = req.header("token");
   if (!token) {
+    req.user = undefined;
   } else {
     try {
       const verified = jwt.verify(token, key.tokenKey);
