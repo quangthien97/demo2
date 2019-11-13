@@ -1,4 +1,4 @@
-const createError = require("http-errors");
+var createError = require("http-errors");
 
 module.exports = {
   asyncMiddleware: fn => (req, res, next) => {

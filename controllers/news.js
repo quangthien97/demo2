@@ -3,10 +3,8 @@ const RateModel = require("../models/Rate");
 const LikeModel = require("../models/Like");
 const ViewModel = require("../models/View");
 const moment = require("moment");
-const createError = require("http-errors");
-
-const createError = require("http-errors");
 const CateNewsModel = require("../models/CateNews");
+var createError = require("http-errors");
 
 module.exports = {
   get: async (req, res) => {
@@ -29,6 +27,7 @@ module.exports = {
   },
   findById: async (req, res) => {
     try {
+      let timedate = moment().format();
       const idNews = req.params._idNews;
       const News = await NewsModel.find({
         _id: idNews,
@@ -36,12 +35,27 @@ module.exports = {
       })
         .populate("cateNews")
         .populate("createdBy");
+      const view = new ViewModel({
+        news: idNews,
+        date: moment(timedate)
+          .add(7, "hour")
+          .format("YYYY-MM-DD hh:mm:ss a")
+      });
+      const viewClass = await view.save();
+      const newsUpdateView = await NewsModel.findOneAndUpdate(
+        {
+          _id: idNews
+        },
+        { $inc: { view: 1 } }
+      );
       return res.json({
         code: 200,
         err: null,
-        data: News
+        data: News,
+        view: viewClass
       });
     } catch (err) {
+      console.log(err);
       return res.json({
         code: 400,
         err: err.messege,

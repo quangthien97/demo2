@@ -1,4 +1,4 @@
-const createError = require("http-errors");
+var createError = require("http-errors");
 const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
@@ -9,8 +9,10 @@ const loginRouter = require("./routes/login");
 const newsEditRouter = require("./routes/newsEdit");
 const likeRouter = require("./routes/like");
 const rateRouter = require("./routes/rate");
-// const viewRouter = require('./routes/view')
+const userRouter = require("./routes/users");
+const viewRouter = require("./routes/view");
 const mongoose = require("mongoose");
+const schedule = require("./service/schedule");
 // const dotenv = require("dotenv");
 // dotenv.config();
 
@@ -48,6 +50,8 @@ app.use(cookieParser());
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
+schedule.view();
+
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -69,9 +73,11 @@ app.use("/cateNews", cateNewsRouter);
 app.use("/news", newsRouter);
 app.use("/newsEdits", newsEditRouter);
 app.use("/login", loginRouter);
+app.use("/users", userRouter);
 app.use("/likes", likeRouter);
 app.use("/rates", rateRouter);
-
+app.use("/views", viewRouter);
+app.use("/users", userRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

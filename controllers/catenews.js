@@ -1,4 +1,4 @@
-const createError = require("http-errors");
+var createError = require("http-errors");
 const CateNewsModel = require("../models/CateNews");
 
 module.exports = {

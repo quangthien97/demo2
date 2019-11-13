@@ -1,4 +1,4 @@
-const createError = require("http-errors");
+var createError = require("http-errors");
 const NewsModel = require("../models/News");
 const RateModel = require("../models/Rate");
 
@@ -42,14 +42,9 @@ module.exports = {
           createdBy: req.user._id
         });
         const RateClass = await Rate.save();
-        const rated = await RateModel.find({ news: idNews });
-        let scoreRate = [];
-        for (let i = 0; i < rated.length; i++) {
-          scoreRate.push(rated[i].score);
-        }
         let averageTest = scoreRate.reduce((a, b) => a + b) / scoreRate.length;
         let average = Math.round(averageTest * 100 + Number.EPSILON) / 100;
-        const ratePro = await NewsModel.findOneAndUpdate(
+        let ratePro = await NewsModel.findOneAndUpdate(
           { _id: idNews },
           { $inc: { ratingCount: 1 }, avangeRating: average }
         );
@@ -126,10 +121,6 @@ module.exports = {
           { _id: idRate },
           { isDelete: true }
         );
-        const ratePro = await NewsModel.findOneAndUpdate(
-          { _id: idNews },
-          { $inc: { ratingCount: -1 } }
-        );
         const rated = await RateModel.find({ news: idRate.news });
         let scoreRate = [];
         for (let i = 0; i < rated.length; i++) {
@@ -137,9 +128,9 @@ module.exports = {
         }
         let averageTest = scoreRate.reduce((a, b) => a + b) / scoreRate.length;
         let average = Math.round(averageTest * 100 + Number.EPSILON) / 100;
-        const ratePro = await NewsModel.findOneAndUpdate(
+        let ratePro = await NewsModel.findOneAndUpdate(
           { _id: idNews },
-          { $inc: { ratingCount: 1 }, avangeRating: average }
+          { $inc: { ratingCount: -1 }, avangeRating: average }
         );
         return res.json({
           code: 200,

@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const moment = require("moment");
 const ObjectId = mongoose.Schema.Types.ObjectId;
 const { NEWS } = require("../constant");
+let timedate = moment().format();
 const schema = new Schema({
   title: String,
   content: String,
@@ -40,7 +41,9 @@ const schema = new Schema({
   },
   dateCreate: {
     type: String,
-    default: moment().format('MMMM Do YYYY, h:mm:ss a'),
+    default: moment(timedate)
+      .add(7, "hour")
+      .format("YYYY-MM-DD hh:mm:ss a")
   },
   tag: [{ type: ObjectId, ref: "Tag" }]
 });

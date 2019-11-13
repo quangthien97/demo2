@@ -1,4 +1,4 @@
-const createError = require("http-errors");
+var createError = require("http-errors");
 const NewsModel = require("../models/News");
 const LikeModel = require("../models/Like");
 
