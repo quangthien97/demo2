@@ -13,9 +13,9 @@ module.exports = {
       const today = new Date(
         moment(timedate)
           .add(7, "hour")
-          .format("YYYY-MM-DD")
+          .format("YYYY-MM-DD hh:mm")
       );
-      cron.schedule("* 59 11 * * *", function() {
+      cron.schedule("0 15 14 * * *", function() {
         mapNews.forEach(async elment => {
           const countView = await ViewModel.find({
             isDelete: false,

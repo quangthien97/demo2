@@ -42,6 +42,8 @@ module.exports = {
           createdBy: req.user._id
         });
         const RateClass = await Rate.save();
+        const rated = await RateModel.find({ news: idRate.news });
+        let scoreRate = rated.map(x => x.score);
         let averageTest = scoreRate.reduce((a, b) => a + b) / scoreRate.length;
         let average = Math.round(averageTest * 100 + Number.EPSILON) / 100;
         let ratePro = await NewsModel.findOneAndUpdate(
@@ -74,12 +76,8 @@ module.exports = {
           { _id: idRate },
           { comment: comment, score: score }
         );
-        const rated = await RateModel.find({ news: checkRate.news });
-        console.log(rated);
-        let scoreRate = [];
-        for (let i = 0; i < rated.length; i++) {
-          scoreRate.push(rated[i].score);
-        }
+        const rated = await RateModel.find({ news: idRate.news });
+        let scoreRate = rated.map(x => x.score);
         let averageTest = scoreRate.reduce((a, b) => a + b) / scoreRate.length;
         let average = Math.round(averageTest * 100 + Number.EPSILON) / 100;
         const rateNews = await NewsModel.findOneAndUpdate(
@@ -122,10 +120,7 @@ module.exports = {
           { isDelete: true }
         );
         const rated = await RateModel.find({ news: idRate.news });
-        let scoreRate = [];
-        for (let i = 0; i < rated.length; i++) {
-          scoreRate.push(rated[i].score);
-        }
+        let scoreRate = rated.map(x => x.score);
         let averageTest = scoreRate.reduce((a, b) => a + b) / scoreRate.length;
         let average = Math.round(averageTest * 100 + Number.EPSILON) / 100;
         let ratePro = await NewsModel.findOneAndUpdate(
