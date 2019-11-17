@@ -5,7 +5,7 @@ const ViewModel = require("../models/View");
 const moment = require("moment");
 const CateNewsModel = require("../models/CateNews");
 var createError = require("http-errors");
-
+const { NEWS } = require("../constant");
 module.exports = {
   get: async (req, res) => {
     try {
@@ -197,6 +197,40 @@ module.exports = {
   getBestNews: async (req, res) => {
     try {
       const Newss = await NewsModel.find({ isDelete: false }).sort({
+        avangeRating: "desc"
+      });
+      return res.json({
+        code: 200,
+        err: null,
+        data: Newss
+      });
+    } catch (err) {
+      return res.json({
+        code: 400,
+        err: err,
+        data: null
+      });
+    }
+  },
+  getNewsToDay: async (req, res) => {
+    try {
+      const today = new Date(
+        moment(timedate)
+          .add(7, "hour")
+          .format("YYYY-MM-DD hh:mm")
+      );
+      const Newss = await NewsModel.find({
+        isDelete: false,
+        date: {
+          $gte: today,
+          $lte: new Date(
+            moment(today)
+              .endOf("day")
+              .toDate()
+          )
+        },
+        status: NEWS.STATUS.PUBLISH
+      }).sort({
         avangeRating: "desc"
       });
       return res.json({

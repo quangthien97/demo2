@@ -15,7 +15,7 @@ module.exports = {
           .add(7, "hour")
           .format("YYYY-MM-DD hh:mm")
       );
-      cron.schedule("0 15 14 * * *", function() {
+      cron.schedule("0 59 23 * * *", function() {
         mapNews.forEach(async elment => {
           const countView = await ViewModel.find({
             isDelete: false,
@@ -35,7 +35,6 @@ module.exports = {
             date: today
           });
           const statisticClass = await statistic.save();
-          console.log(statisticClass);
         });
       });
     } catch (err) {
@@ -56,7 +55,7 @@ module.exports = {
           .add(7, "hour")
           .format("YYYY-MM-DD")
       );
-      cron.schedule("* 59 11 * * *", function() {
+      cron.schedule("0 0 0 1 * *", function() {
         mapNews.forEach(async elment => {
           const countView = await ViewModel.find({
             isDelete: false,
