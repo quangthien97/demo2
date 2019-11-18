@@ -21,13 +21,37 @@ module.exports = {
       });
     }
   },
+  findById: async (req, res) => {
+    try {
+      const idDraft = req.params._id;
+      const draft = await DraftModel.findOne({
+        _id: idDraft,
+        isDelete: false
+      })
+        .populate("cateNews")
+        .populate("createdBy");
+      return res.json({
+        code: 200,
+        err: null,
+        data: draft
+      });
+    } catch (err) {
+      console.log(err);
+      return res.json({
+        code: 400,
+        err: err.messege,
+        data: null
+      });
+    }
+  },
   create: async (req, res) => {
     try {
       const Draft = new DraftModel({
         title: null,
         content: null,
         cateNews: null,
-        createdBy: req.user._id
+        createdBy: req.user._id,
+        news: idNews
       });
       const DraftClass = await Draft.save();
       return res.json({ code: 200, message: null, data: DraftClass });

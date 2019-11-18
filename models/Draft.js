@@ -27,6 +27,6 @@ const schema = new Schema({
   tag: [{ type: ObjectId, ref: "Tag" }]
 });
 
-const NewsModel = mongoose.model("News", schema);
+const NewsModel = mongoose.model("Draft", schema);
 
 module.exports = NewsModel;
