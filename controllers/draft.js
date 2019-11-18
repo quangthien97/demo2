@@ -50,8 +50,8 @@ module.exports = {
         title: null,
         content: null,
         cateNews: null,
-        createdBy: req.user._id,
-        news: idNews
+        count: null,
+        createdBy: req.user._id
       });
       const DraftClass = await Draft.save();
       return res.json({ code: 200, message: null, data: DraftClass });
@@ -80,6 +80,7 @@ module.exports = {
           const draftUpdate = await DraftModel.updateOne(
             { _id: _id },
             {
+              count: body.count,
               title: body.title,
               content: body.content,
               cateNews: body.cateNews,
@@ -110,7 +111,7 @@ module.exports = {
       if (draftCheck == null) {
         return res.json({
           data: null,
-          messege: "Khong co san pham nay",
+          messege: "Khong co ban nhap nay",
           code: 200
         });
       }

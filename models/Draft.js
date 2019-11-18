@@ -14,6 +14,7 @@ const schema = new Schema({
     type: ObjectId,
     ref: "CateNews"
   },
+  count: Number,
   isDelete: {
     type: Boolean,
     default: false
